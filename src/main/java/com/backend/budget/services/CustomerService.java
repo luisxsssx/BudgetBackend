@@ -34,7 +34,7 @@ public class CustomerService {
     }
 
     public List<CustomerModel> getAllCustomers(){
-        String sql = "SELECT customer_id, user_id, email, phone, customer_type, created_at, update_at FROM customer;";
+        String sql = "SELECT customer_id, user_id, customer_name, email, phone, customer_type, created_at, update_at FROM customer;";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(CustomerModel.class));
     }
 

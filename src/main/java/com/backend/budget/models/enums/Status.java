@@ -1,6 +1,6 @@
 package com.backend.budget.models.enums;
 
-public enum BudgetStatus {
+public enum Status {
     PENDING,
     APPROVED,
     REFUSED

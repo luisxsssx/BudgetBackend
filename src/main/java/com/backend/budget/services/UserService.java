@@ -2,8 +2,7 @@ package com.backend.budget.services;
 
 import com.backend.budget.models.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.*;
 import org.springframework.stereotype.Service;
 
 import java.sql.CallableStatement;
@@ -30,7 +29,24 @@ public class UserService {
                 return null;
             });
         } catch (Exception e) {
-            System.out.println("Error saving user data: " + e.getMessage());
+            if(e.getMessage().contains("Existing phone number")) {
+                throw new RuntimeException("Phone number already exists");
+            } else if (e.getMessage().contains("Existing email")) {
+                throw new RuntimeException("Email already exists");
+            } else {
+                throw new RuntimeException("Unexpected error ocurred: " + e.getMessage());
+            }
+        }
+    }
+
+    public void deleteUser(Integer user_id){
+        try{
+            jdbcTemplate.execute((Connection conn) -> {
+                CallableStatement callableStatement = conn.prepareCall("CALL DELETE_USER()");
+                return null;
+            });
+        } catch (Exception e) {
+            System.out.println("Error deleting user: " + e.getMessage());
         }
     }
 
